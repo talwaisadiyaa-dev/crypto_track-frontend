@@ -1,6 +1,7 @@
+
 import { Link } from "react-router-dom";
-import { TypeAnimation } from "react-type-animation";
 import { motion } from "framer-motion";
+import { TypeAnimation } from "react-type-animation";
 import { TrendingUp, BarChart3, Zap, Shield, Users, Smartphone } from "lucide-react";
 
 function Landing() {
@@ -91,7 +92,7 @@ function Landing() {
             <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-indigo-600 to-pink-600 text-white text-4xl shadow-xl mb-6">
               📋
             </div>
-            <h2 className="text-6xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-pink-600 mb-6">
+            <h2 className="text-6xl md:text-7xl font-black text-slate-900 mb-6">
               How It Works
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -128,7 +129,7 @@ function Landing() {
             <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-indigo-600 to-pink-600 text-white text-4xl shadow-xl mb-6">
               ⚡
             </div>
-            <h2 className="text-6xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-pink-600 mb-6">
+            <h2 className="text-6xl md:text-7xl font-black text-slate-900 mb-6">
               Powerful Features
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -188,125 +189,85 @@ function Landing() {
       </section>
 
       {/* 5️⃣ ABOUT ME */}
-      <section id="about" className="py-24 bg-gradient-to-br from-slate-50 via-white to-indigo-50 px-6 relative overflow-hidden">
-        {/* Background decorative elements */}
-        <div className="absolute top-20 left-10 w-32 h-32 bg-indigo-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse"></div>
-        <div className="absolute bottom-20 right-10 w-40 h-40 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse" style={{ animationDelay: "1s" }}></div>
-
-        <div className="max-w-7xl mx-auto relative z-10">
+      <section id="about" className="py-24 bg-gray-50 px-6">
+        <div className="max-w-7xl mx-auto">
           <motion.div className="text-center mb-16" initial="hidden" whileInView="visible" variants={containerVariants} viewport={{ once: true }}>
-            <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-indigo-600 to-pink-600 text-white text-5xl shadow-2xl mb-8 animate-bounce">
-              👩‍💻
-            </div>
-            <h2 className="text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 mb-6 tracking-wider">
+            <motion.h2 variants={itemVariants} className="text-4xl font-bold text-slate-900 mb-6">
               About Me
-            </h2>
-            <p className="text-2xl text-gray-600 max-w-4xl mx-auto font-light">
-              The story behind CryptoTrack Pro and the passion that drives it
-            </p>
+            </motion.h2>
+            <motion.p variants={itemVariants} className="text-xl text-gray-600 max-w-4xl mx-auto mb-8">
+              A clean story about who I am, what I build, and why it matters.
+            </motion.p>
           </motion.div>
 
-          <motion.div className="max-w-6xl mx-auto" initial="hidden" whileInView="visible" variants={containerVariants} viewport={{ once: true }}>
-            <div className="grid lg:grid-cols-3 gap-8 items-center">
-              {/* Left Column - Personal Story */}
-              <motion.div variants={itemVariants} className="lg:col-span-2 space-y-8">
-                <div className="bg-white p-10 rounded-3xl shadow-2xl border border-gray-100 relative">
-                  <div className="absolute -top-4 -left-4 w-8 h-8 bg-gradient-to-br from-indigo-600 to-pink-600 rounded-full animate-ping"></div>
-                  <div className="absolute -top-4 -left-4 w-8 h-8 bg-gradient-to-br from-indigo-600 to-pink-600 rounded-full"></div>
+          <div className="max-w-5xl mx-auto">
+            {/* Unique Profile Card */}
+            <motion.div className="text-center mb-16" initial="hidden" whileInView="visible" variants={containerVariants} viewport={{ once: true }}>
+              <motion.div variants={itemVariants} className="inline-block">
+                <div className="w-32 h-32 bg-indigo-600 rounded-full flex items-center justify-center text-white text-6xl font-bold mb-6 mx-auto shadow-lg">
+                  S
+                </div>
+                <motion.h3 variants={itemVariants} className="text-4xl font-bold text-slate-900 mb-2">Sadiya</motion.h3>
+                <motion.p variants={itemVariants} className="text-lg text-slate-600">Full-Stack Developer & Crypto Enthusiast</motion.p>
+              </motion.div>
+            </motion.div>
 
-                  <div className="text-center mb-8">
-                    <h3 className="text-5xl font-black text-indigo-600 mb-3 animate-pulse">👋 Hi, I'm Sadiya!</h3>
-                    <p className="text-xl text-gray-600 font-medium">Full-Stack Developer & Crypto Enthusiast</p>
-                    <div className="w-20 h-1 bg-gradient-to-r from-indigo-600 to-pink-600 mx-auto mt-4 rounded-full"></div>
-                  </div>
+            <motion.div className="grid lg:grid-cols-2 gap-12" initial="hidden" whileInView="visible" variants={containerVariants} viewport={{ once: true }}>
+              <motion.div variants={itemVariants} className="space-y-8">
+                <div className="bg-white p-8 rounded-lg shadow-md border-l-4 border-indigo-500">
+                  <h4 className="text-2xl font-semibold text-slate-900 mb-4 flex items-center gap-2">
+                    💡 My Passion
+                  </h4>
+                  <p className="text-slate-600 leading-relaxed">
+                    A passionate full-stack developer crafting simple, elegant crypto solutions that make investing accessible to everyone. I believe in making complex things simple — especially when it comes to your crypto journey.
+                  </p>
+                </div>
 
-                  <div className="space-y-6 text-lg leading-relaxed text-gray-700">
-                    <p className="text-xl font-semibold text-center text-indigo-600 mb-6">
-                      "Turning complex crypto data into simple, beautiful insights"
-                    </p>
-
-                    <p>
-                      I created <span className="font-bold text-indigo-600">CryptoTrack Pro</span> because I saw a gap in the market.
-                      Most crypto tracking tools were either too complicated for beginners or too expensive for casual investors.
-                    </p>
-
-                    <p>
-                      As a developer passionate about blockchain technology, I wanted to build something that combines
-                      <span className="font-semibold text-pink-600"> powerful functionality</span> with
-                      <span className="font-semibold text-indigo-600"> elegant simplicity</span>.
-                    </p>
-
-                    <p>
-                      Every feature in this app was designed with one goal in mind:
-                      <span className="italic text-gray-600"> making cryptocurrency accessible and enjoyable for everyone.</span>
-                    </p>
-                  </div>
-
-                  {/* Stats Cards */}
-                  <div className="grid grid-cols-3 gap-4 mt-8">
-                    <div className="text-center p-4 bg-gradient-to-br from-indigo-50 to-pink-50 rounded-xl border border-indigo-100">
-                      <div className="text-2xl font-black text-indigo-600">10K+</div>
-                      <div className="text-xs text-gray-600">Coins Supported</div>
-                    </div>
-                    <div className="text-center p-4 bg-gradient-to-br from-pink-50 to-purple-50 rounded-xl border border-pink-100">
-                      <div className="text-2xl font-black text-pink-600">Free</div>
-                      <div className="text-xs text-gray-600">Forever</div>
-                    </div>
-                    <div className="text-center p-4 bg-gradient-to-br from-purple-50 to-indigo-50 rounded-xl border border-purple-100">
-                      <div className="text-2xl font-black text-purple-600">Real-time</div>
-                      <div className="text-xs text-gray-600">Updates</div>
-                    </div>
-                  </div>
+                <div className="bg-white p-8 rounded-lg shadow-md border-l-4 border-green-500">
+                  <h4 className="text-2xl font-semibold text-slate-900 mb-4 flex items-center gap-2">
+                    🚀 About This Project
+                  </h4>
+                  <p className="text-slate-600 leading-relaxed mb-4">
+                    CryptoTrack Pro was born from a simple idea: everyone should have an easy way to track their crypto investments without the overwhelm of complex tools.
+                  </p>
+                  <p className="text-slate-600 leading-relaxed">
+                    Built with modern technologies like React, Node.js, and MongoDB, this platform offers real-time data, intuitive portfolio management, and a clean interface that feels right at home.
+                  </p>
                 </div>
               </motion.div>
 
-              {/* Right Column - Skills & Journey */}
               <motion.div variants={itemVariants} className="space-y-6">
-                <div className="bg-gradient-to-br from-indigo-600 to-pink-600 p-8 rounded-3xl text-white shadow-2xl">
-                  <h4 className="text-2xl font-bold mb-6 text-center">🚀 My Journey</h4>
-                  <div className="space-y-4">
-                    <div className="flex items-start gap-3">
-                      <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-sm font-bold">🎓</div>
-                      <div>
-                        <p className="font-semibold">Education</p>
-                        <p className="text-sm text-white/80">Nehru BBA & BCA College</p>
+                <div className="bg-white p-8 rounded-lg shadow-md">
+                  <h4 className="text-2xl font-semibold text-slate-900 mb-6 text-center flex items-center justify-center gap-2">
+                    🛤️ My Journey
+                  </h4>
+                  <div className="space-y-6">
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-2xl flex-shrink-0">🎓</div>
+                      <div className="flex-1">
+                        <h5 className="font-semibold text-lg text-slate-900">Education</h5>
+                        <p className="text-slate-600">Nehru BBA & BCA College</p>
                       </div>
                     </div>
-                    <div className="flex items-start gap-3">
-                      <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-sm font-bold">💼</div>
-                      <div>
-                        <p className="font-semibold">Experience</p>
-                        <p className="text-sm text-white/80">Full-Stack Developer at Ultimez Technology</p>
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-2xl flex-shrink-0">💼</div>
+                      <div className="flex-1">
+                        <h5 className="font-semibold text-lg text-slate-900">Experience</h5>
+                        <p className="text-slate-600">Full-Stack Developer at Ultimez Technology</p>
                       </div>
                     </div>
-                    <div className="flex items-start gap-3">
-                      <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-sm font-bold">🛠️</div>
-                      <div>
-                        <p className="font-semibold">Tech Stack</p>
-                        <p className="text-sm text-white/80">React • Node.js • MongoDB • Tailwind</p>
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center text-2xl flex-shrink-0">🛠️</div>
+                      <div className="flex-1">
+                        <h5 className="font-semibold text-lg text-slate-900">Tech Stack</h5>
+                        <p className="text-slate-600">React • Node.js • MongoDB • Tailwind</p>
                       </div>
                     </div>
                   </div>
                 </div>
-
-                <div className="bg-white p-6 rounded-3xl shadow-xl border border-gray-100">
-                  <h4 className="text-xl font-bold text-center text-gray-800 mb-4">💡 Why This Matters</h4>
-                  <p className="text-gray-600 text-sm leading-relaxed">
-                    In a world of complex financial tools, CryptoTrack Pro stands out by being
-                    <span className="font-semibold text-indigo-600"> simple yet powerful</span>,
-                    <span className="font-semibold text-pink-600"> free yet feature-rich</span>, and
-                    <span className="font-semibold text-purple-600"> accessible yet professional</span>.
-                  </p>
-                </div>
-
-                <div className="bg-gradient-to-r from-slate-100 to-indigo-100 p-6 rounded-3xl border border-slate-200">
-                  <p className="text-center text-gray-700 italic text-sm">
-                    "Every line of code written with the vision of democratizing crypto knowledge"
-                  </p>
-                </div>
               </motion.div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
