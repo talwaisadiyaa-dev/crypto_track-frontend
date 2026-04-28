@@ -189,82 +189,90 @@ function Landing() {
       </section>
 
       {/* 5️⃣ ABOUT ME */}
-      <section id="about" className="py-24 bg-gray-50 px-6">
-        <div className="max-w-7xl mx-auto">
+      <section id="about" className="relative py-24 bg-gray-50 px-6 overflow-hidden">
+        <div className="pointer-events-none absolute -left-24 top-20 w-72 h-72 rounded-full bg-indigo-300/30 blur-3xl"></div>
+        <div className="pointer-events-none absolute right-0 -bottom-10 w-80 h-80 rounded-full bg-pink-300/25 blur-3xl"></div>
+
+        <div className="relative max-w-7xl mx-auto">
           <motion.div className="text-center mb-16" initial="hidden" whileInView="visible" variants={containerVariants} viewport={{ once: true }}>
-            <motion.h2 variants={itemVariants} className="text-4xl font-bold text-slate-900 mb-6">
-              About Me
+            <motion.h2 variants={itemVariants} className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
+              Hi, I'm <span className="text-indigo-600">Sadiya</span> — I build crypto tools people actually enjoy.
             </motion.h2>
-            <motion.p variants={itemVariants} className="text-xl text-gray-600 max-w-4xl mx-auto mb-8">
-              A clean story about who I am, what I build, and why it matters.
-            </motion.p>
+            <motion.div variants={itemVariants} className="space-y-5 max-w-4xl mx-auto">
+              <div className="text-2xl md:text-3xl font-semibold text-slate-700">
+                <TypeAnimation
+                  sequence={[
+                    'Smooth, simple crypto tracking for every investor.',
+                    2400,
+                    'Clear portfolio insights without the overwhelm.',
+                    2400,
+                    'Fast UI, real-time data, and friendly design.',
+                    2400,
+                  ]}
+                  speed={45}
+                  repeat={Infinity}
+                  wrapper="p"
+                />
+              </div>
+              <p className="mx-auto max-w-3xl text-lg text-slate-600">
+                I create crypto dashboards with clean visuals, useful summaries, and fast performance — so your next trade feels easy and confident.
+              </p>
+            </motion.div>
+          </motion.div>
+
+          <motion.div className="grid gap-8 lg:grid-cols-2 xl:grid-cols-3 mb-16" initial="hidden" whileInView="visible" variants={containerVariants} viewport={{ once: true }}>
+            {[
+              { title: 'Smart Interface', desc: 'Minimal screens, clear actions, and instant feedback.', icon: '✨' },
+              { title: 'Real Insights', desc: 'Portfolio health, top gainers, and watchlist alerts.', icon: '📈' },
+              { title: 'Fast & Friendly', desc: 'Responsive design built for desktop and mobile alike.', icon: '⚡' }
+            ].map((item, idx) => (
+              <motion.div
+                key={idx}
+                variants={itemVariants}
+                whileHover={{ y: -10, scale: 1.02 }}
+                transition={{ duration: 0.3 }}
+                className="group bg-white p-8 rounded-3xl shadow-2xl border border-gray-200 hover:border-indigo-300"
+              >
+                <div className="text-4xl mb-4">{item.icon}</div>
+                <h4 className="text-2xl font-semibold text-slate-900 mb-3 group-hover:text-indigo-600">{item.title}</h4>
+                <p className="text-slate-600 leading-relaxed">{item.desc}</p>
+              </motion.div>
+            ))}
           </motion.div>
 
           <div className="max-w-5xl mx-auto">
-            {/* Unique Profile Card */}
             <motion.div className="text-center mb-16" initial="hidden" whileInView="visible" variants={containerVariants} viewport={{ once: true }}>
-              <motion.div variants={itemVariants} className="inline-block">
-                <div className="w-32 h-32 bg-indigo-600 rounded-full flex items-center justify-center text-white text-6xl font-bold mb-6 mx-auto shadow-lg">
+              <motion.div variants={itemVariants} className="mx-auto inline-block rounded-full bg-gradient-to-r from-indigo-600 to-pink-600 p-1 shadow-2xl">
+                <div className="w-32 h-32 rounded-full bg-white flex items-center justify-center text-indigo-700 text-5xl font-black">
                   S
                 </div>
-                <motion.h3 variants={itemVariants} className="text-4xl font-bold text-slate-900 mb-2">Sadiya</motion.h3>
-                <motion.p variants={itemVariants} className="text-lg text-slate-600">Full-Stack Developer & Crypto Enthusiast</motion.p>
               </motion.div>
+              <motion.h3 variants={itemVariants} className="text-4xl font-bold text-slate-900 mt-8 mb-3">Sadiya</motion.h3>
+              <motion.p variants={itemVariants} className="text-lg text-slate-600 max-w-xl mx-auto">
+                I build fast, modern crypto apps with React, Node.js, and MongoDB — and I make sure every screen feels clear, calm, and useful.
+              </motion.p>
             </motion.div>
 
-            <motion.div className="grid lg:grid-cols-2 gap-12" initial="hidden" whileInView="visible" variants={containerVariants} viewport={{ once: true }}>
-              <motion.div variants={itemVariants} className="space-y-8">
-                <div className="bg-white p-8 rounded-lg shadow-md border-l-4 border-indigo-500">
-                  <h4 className="text-2xl font-semibold text-slate-900 mb-4 flex items-center gap-2">
-                    💡 My Passion
-                  </h4>
-                  <p className="text-slate-600 leading-relaxed">
-                    A passionate full-stack developer crafting simple, elegant crypto solutions that make investing accessible to everyone. I believe in making complex things simple — especially when it comes to your crypto journey.
-                  </p>
-                </div>
-
-                <div className="bg-white p-8 rounded-lg shadow-md border-l-4 border-green-500">
-                  <h4 className="text-2xl font-semibold text-slate-900 mb-4 flex items-center gap-2">
-                    🚀 About This Project
-                  </h4>
-                  <p className="text-slate-600 leading-relaxed mb-4">
-                    CryptoTrack Pro was born from a simple idea: everyone should have an easy way to track their crypto investments without the overwhelm of complex tools.
-                  </p>
-                  <p className="text-slate-600 leading-relaxed">
-                    Built with modern technologies like React, Node.js, and MongoDB, this platform offers real-time data, intuitive portfolio management, and a clean interface that feels right at home.
-                  </p>
-                </div>
+            <motion.div className="grid gap-8 lg:grid-cols-3" initial="hidden" whileInView="visible" variants={containerVariants} viewport={{ once: true }}>
+              <motion.div variants={itemVariants} whileHover={{ y: -8 }} transition={{ duration: 0.3 }} className="bg-white p-8 rounded-3xl shadow-xl border border-gray-200">
+                <h4 className="text-2xl font-semibold text-slate-900 mb-3">Design focus</h4>
+                <p className="text-slate-600 leading-relaxed">
+                  Crafted for clarity so users can understand their portfolio at a glance.
+                </p>
               </motion.div>
 
-              <motion.div variants={itemVariants} className="space-y-6">
-                <div className="bg-white p-8 rounded-lg shadow-md">
-                  <h4 className="text-2xl font-semibold text-slate-900 mb-6 text-center flex items-center justify-center gap-2">
-                    🛤️ My Journey
-                  </h4>
-                  <div className="space-y-6">
-                    <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-2xl flex-shrink-0">🎓</div>
-                      <div className="flex-1">
-                        <h5 className="font-semibold text-lg text-slate-900">Education</h5>
-                        <p className="text-slate-600">Nehru BBA & BCA College</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-2xl flex-shrink-0">💼</div>
-                      <div className="flex-1">
-                        <h5 className="font-semibold text-lg text-slate-900">Experience</h5>
-                        <p className="text-slate-600">Full-Stack Developer at Ultimez Technology</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center text-2xl flex-shrink-0">🛠️</div>
-                      <div className="flex-1">
-                        <h5 className="font-semibold text-lg text-slate-900">Tech Stack</h5>
-                        <p className="text-slate-600">React • Node.js • MongoDB • Tailwind</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              <motion.div variants={itemVariants} whileHover={{ y: -8 }} transition={{ duration: 0.3 }} className="bg-white p-8 rounded-3xl shadow-xl border border-gray-200">
+                <h4 className="text-2xl font-semibold text-slate-900 mb-3">Built for speed</h4>
+                <p className="text-slate-600 leading-relaxed">
+                  Every interaction is fast and smooth, with live market updates and quick actions.
+                </p>
+              </motion.div>
+
+              <motion.div variants={itemVariants} whileHover={{ y: -8 }} transition={{ duration: 0.3 }} className="bg-white p-8 rounded-3xl shadow-xl border border-gray-200">
+                <h4 className="text-2xl font-semibold text-slate-900 mb-3">User-first</h4>
+                <p className="text-slate-600 leading-relaxed">
+                  I design around real people, not just data — so crypto becomes less stressful and more confident.
+                </p>
               </motion.div>
             </motion.div>
           </div>
