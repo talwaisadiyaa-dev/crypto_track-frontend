@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { Pin, TrendingUp, BarChart2, Search, X, RefreshCw, Flame, Zap, ArrowUpRight, ArrowDownRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const BASE_URL = "https://crypto-backend-2ryf.onrender.com";
+const BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
 /* ========================= SPARKLINE ========================= */
 function Sparkline({ data = [], positive }) {

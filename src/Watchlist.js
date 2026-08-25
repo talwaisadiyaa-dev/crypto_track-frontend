@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Trash2, ArrowRightLeft, RefreshCw, TrendingUp, TrendingDown } from "lucide-react";
 
-const BASE_URL = "https://crypto-backend-2ryf.onrender.com";
+const BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
 export default function Watchlist() {
   const [coins,     setCoins]     = useState([]);

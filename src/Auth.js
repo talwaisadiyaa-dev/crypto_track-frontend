@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import toast, { Toaster } from "react-hot-toast";
 import { FaLock, FaEye, FaEyeSlash, FaEnvelope } from "react-icons/fa";
 
-const BASE_URL = "https://crypto-backend-2ryf.onrender.com";
+const BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
 function Auth() {
   const navigate = useNavigate();

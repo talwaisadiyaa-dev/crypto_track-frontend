@@ -10,6 +10,8 @@ import toast from "react-hot-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import autoTable from "jspdf-autotable";
 
+const BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
 /* ========================= CONSTANTS ========================= */
 const COLORS = ["#6366F1", "#22C55E", "#F59E0B", "#EF4444", "#06B6D4", "#8B5CF6", "#EC4899", "#14B8A6"];
 
@@ -108,7 +110,11 @@ function TradeModal({ item, mode, onClose, onDone }) {
     const userId = localStorage.getItem("userId");
     setLoading(true);
     try {
-      await fetch(isBuy ? "https://crypto-backend-2ryf.onrender.com/api/portfolio/buy" : "https://crypto-backend-2ryf.onrender.com/api/portfolio/sell", {
+      await fetch(
+  isBuy
+    ? `${BASE_URL}/api/portfolio/buy`
+    : `${BASE_URL}/api/portfolio/sell`,
+  {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ coin: item.coin, price: execPrice, quantity: Number(qty), userId, orderType }),
@@ -254,8 +260,8 @@ export default function Dashboard() {
   const fetchPortfolio = async () => {
     try {
       const userId = localStorage.getItem("userId");
-      if (!userId) return;
-      const res  = await fetch(`https://crypto-backend-2ryf.onrender.com/api/portfolio/${userId}`);
+      if (!userId) return setPortfolio([]);
+      const res  = await fetch(`${BASE_URL}/api/transactions/${userId}`)
       const data = await res.json();
       if (!data || data.length === 0) { setPortfolio([]); return; }
       const coinIds  = data.map(i => i.coin?.toLowerCase()).filter(Boolean).join(",");
@@ -272,11 +278,43 @@ export default function Dashboard() {
   useEffect(() => {
     fetchPortfolio();
     const fetchHistory = async () => {
-      const userId = localStorage.getItem("userId");
-      if (!userId) return;
-      const res = await fetch(`https://crypto-backend-2ryf.onrender.com/api/transactions/${userId}`);
-      setHistory(await res.json());
-    };
+  try {
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      setHistory([]);
+      return;
+    }
+
+    const res = await fetch(
+      `${BASE_URL}/api/transactions/${userId}`
+    );
+
+    const data = await res.json();
+
+    console.log("Transaction API response:", data);
+
+    // API response array hai
+    if (Array.isArray(data)) {
+      setHistory(data);
+    }
+    // API response object ke andar transactions hai
+    else if (Array.isArray(data.transactions)) {
+      setHistory(data.transactions);
+    }
+    // API response object ke andar history hai
+    else if (Array.isArray(data.history)) {
+      setHistory(data.history);
+    }
+    // Kuch unexpected mila
+    else {
+      console.warn("Unexpected transaction response:", data);
+      setHistory([]);
+    }
+  } catch (error) {
+    console.error("Error fetching transaction history:", error);
+    setHistory([]);
+  }
+};
     fetchHistory();
     const interval = setInterval(() => { fetchPortfolio(); fetchHistory(); }, 15000);
     return () => clearInterval(interval);
@@ -303,7 +341,7 @@ export default function Dashboard() {
   /* ========================= DELETE ========================= */
   const deleteCoin = async (id) => {
     try {
-      await fetch(`https://crypto-backend-2ryf.onrender.com/api/portfolio/${id}`, { method: "DELETE" });
+      await fetch(`${BASE_URL}/api/portfolio/${id}`, { method: "DELETE" });
       setPortfolio(prev => prev.filter(c => c._id !== id));
       toast.success("Deleted ✅");
     } catch { toast.error("Delete failed ❌"); }
@@ -333,11 +371,24 @@ export default function Dashboard() {
     const userId = localStorage.getItem("userId");
     if (!userId) return toast.error("Login required");
     setAddLoading(true);
-    try {
-      await fetch("https://crypto-backend-2ryf.onrender.com/api/portfolio/buy", {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ coin: selectedCoin.id, price: Number(addPrice), quantity: Number(addQty), userId }),
-      });
+       try {
+      const response = await fetch(
+        `${BASE_URL}/api/portfolio/buy`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            coin: selectedCoin.id,
+            price: Number(addPrice),
+            quantity: Number(addQty),
+            userId,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to add coin");
+      }
       toast.success(`${selectedCoin.symbol} added ✅`);
       setShowAddForm(false); setCoinSearch(""); setSelectedCoin(null); setAddQty(""); setAddPrice(""); setLivePrice(null);
       fetchPortfolio();
@@ -366,6 +417,18 @@ export default function Dashboard() {
   const worstCoin = sortedPL[sortedPL.length - 1];
   const gainers   = sortedPL.slice(0, 3);
   const losers    = sortedPL.slice(-3).reverse();
+
+  // FIX: filteredHistory was referenced in the Transaction History section
+  // but never defined anywhere — this caused the "filteredHistory is not
+  // defined" ReferenceError. It filters `history` by the selected tab.
+  const safeHistory = Array.isArray(history) ? history : [];
+
+const filteredHistory =
+  activeTab === "ALL"
+    ? safeHistory
+    : safeHistory.filter(
+        h => h.type?.toUpperCase() === activeTab
+      );
 
   useEffect(() => {
     if (profitPercent > 20)       setSuggestion("💰 Book Profit");
@@ -447,8 +510,19 @@ export default function Dashboard() {
     });
 
     const afterH = pdf.lastAutoTable.finalY;
-    const tBuy   = history.filter(h => h.type?.toLowerCase() === "buy").reduce((a, h) => a + Number(h.price) * (h.quantity || h.qty || 0), 0);
-    const tSell  = history.filter(h => h.type?.toLowerCase() === "sell").reduce((a, h) => a + Number(h.price) * (h.quantity || h.qty || 0), 0);
+const tBuy = safeHistory
+  .filter(h => h.type?.toLowerCase() === "buy")
+  .reduce(
+    (a, h) => a + Number(h.price) * (h.quantity || h.qty || 0),
+    0
+  );
+
+const tSell = safeHistory
+  .filter(h => h.type?.toLowerCase() === "sell")
+  .reduce(
+    (a, h) => a + Number(h.price) * (h.quantity || h.qty || 0),
+    0
+  );    
 
     sec("Transaction Summary", afterH + 12);
     pdf.setFontSize(10);
@@ -473,7 +547,6 @@ export default function Dashboard() {
     pdf.save(`Crypto_Report_${reportId}.pdf`);
   };
 
-  const filteredHistory = activeTab === "ALL" ? history : history.filter(h => h.type === activeTab);
 
   /* ========================= RENDER ========================= */
   return (
@@ -816,7 +889,7 @@ export default function Dashboard() {
             {filteredHistory.map((h, i) => (
               <div key={i} className="flex items-center justify-between bg-gray-50 rounded-xl px-4 py-3">
                 <div className="flex items-center gap-3">
-                  <span className={`w-14 text-center text-xs font-bold py-1 rounded-lg ${h.type === "BUY" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-600"}`}>{h.type}</span>
+                  <span className={`w-14 text-center text-xs font-bold py-1 rounded-lg ${h.type?.toUpperCase() === "BUY" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-600"}`}>{h.type?.toUpperCase()}</span>
                   <div>
                     <p className="font-semibold text-sm text-gray-800">{h.coin?.toUpperCase()}</p>
                     <p className="text-xs text-gray-400">{new Date(h.date).toLocaleString()}</p>
