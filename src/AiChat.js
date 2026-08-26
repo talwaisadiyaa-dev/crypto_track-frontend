@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Send, Bot, User, RefreshCw, Sparkles } from "lucide-react";
 
-const BASE_URL ="http://localhost:5000";
+const BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
 const QUICK_PROMPTS = [
   { icon: "📈", text: "What is Bitcoin halving?"           },
@@ -90,6 +90,7 @@ export default function AiChat() {
         body:    JSON.stringify({ messages: newHistory }),
       });
 
+      if (!res.ok) throw new Error(`AI request failed: ${res.status}`);
       const data  = await res.json();
       const reply = data.reply || "Sorry, I couldn't process that. Please try again! 🙏";
       const aiTime = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
@@ -146,7 +147,7 @@ export default function AiChat() {
               </h1>
               <div className="flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                <p className="text-xs text-gray-400 font-medium">Powered by Google Gemini</p>
+                <p className="text-xs text-gray-400 font-medium">Powered by groq api</p>
               </div>
             </div>
           </div>

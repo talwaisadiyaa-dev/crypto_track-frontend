@@ -261,7 +261,8 @@ export default function Dashboard() {
     try {
       const userId = localStorage.getItem("userId");
       if (!userId) return setPortfolio([]);
-      const res  = await fetch(`${BASE_URL}/api/transactions/${userId}`)
+      const res  = await fetch(`${BASE_URL}/api/portfolio/${userId}`);
+      if (!res.ok) throw new Error(`Portfolio request failed: ${res.status}`);
       const data = await res.json();
       if (!data || data.length === 0) { setPortfolio([]); return; }
       const coinIds  = data.map(i => i.coin?.toLowerCase()).filter(Boolean).join(",");
@@ -341,7 +342,8 @@ export default function Dashboard() {
   /* ========================= DELETE ========================= */
   const deleteCoin = async (id) => {
     try {
-      await fetch(`${BASE_URL}/api/portfolio/${id}`, { method: "DELETE" });
+      const res = await fetch(`${BASE_URL}/api/portfolio/${id}`, { method: "DELETE" });
+      if (!res.ok) throw new Error(`Delete request failed: ${res.status}`);
       setPortfolio(prev => prev.filter(c => c._id !== id));
       toast.success("Deleted ✅");
     } catch { toast.error("Delete failed ❌"); }
