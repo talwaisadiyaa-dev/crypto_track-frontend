@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Send, Bot, User, RefreshCw, Sparkles } from "lucide-react";
 
-const BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
-
+const BASE_URL = "https://crypto-backend-2ryf.onrender.com";
 const QUICK_PROMPTS = [
   { icon: "📈", text: "What is Bitcoin halving?"           },
   { icon: "💼", text: "How to diversify crypto portfolio?" },
